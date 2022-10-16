@@ -68,6 +68,10 @@ public class HelloController implements Initializable {
                         .uri(URI.create(endpoint.getText()))
                         .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                         .build();
+            } else if(requestType.getValue() == "Delete") {
+                request = HttpRequest.newBuilder()
+                        .uri(URI.create(endpoint.getText()))
+                        .DELETE().build();
             }
         }
 
@@ -85,7 +89,7 @@ public class HelloController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ObservableList<String> requestTypes = FXCollections.observableArrayList(
-                "Get", "Post");
+                "Get", "Post", "Delete");
 
         requestType.valueProperty().addListener(new ChangeListener<String>() {
             @Override public void changed(ObservableValue ov, String t, String t1) {
