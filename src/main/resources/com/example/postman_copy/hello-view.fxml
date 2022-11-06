@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="487.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.postman_copy.HelloController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="649.0" prefWidth="765.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.postman_copy.HelloController">
    <children>
-      <Label alignment="CENTER" layoutX="132.0" layoutY="15.0" prefHeight="51.0" prefWidth="337.0" text="Postman" textAlignment="CENTER">
+      <Label alignment="CENTER" layoutX="201.0" layoutY="14.0" prefHeight="51.0" prefWidth="337.0" text="Postman" textAlignment="CENTER">
          <font>
             <Font size="36.0" />
          </font>
@@ -28,14 +28,14 @@
          </font>
       </Label>
       <ChoiceBox id="requestType" fx:id="requestType" layoutX="25.0" layoutY="156.0" prefWidth="150.0" />
-      <Button fx:id="sendRequestButton" layoutX="258.0" layoutY="231.0" mnemonicParsing="false" onAction="#sendHttpRequest" text="Send request" />
-      <TextArea fx:id="responseText" layoutX="20.0" layoutY="275.0" prefHeight="200.0" prefWidth="562.0" />
-      <Label layoutX="21.0" layoutY="251.0" prefHeight="20.0" prefWidth="102.0" text="Response">
+      <Button fx:id="sendRequestButton" layoutX="327.0" layoutY="378.0" mnemonicParsing="false" onAction="#sendHttpRequest" text="Send request" />
+      <TextArea fx:id="responseText" layoutX="17.0" layoutY="435.0" prefHeight="200.0" prefWidth="731.0" />
+      <Label layoutX="18.0" layoutY="411.0" prefHeight="20.0" prefWidth="102.0" text="Response">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Pane fx:id="postPanel" layoutX="369.0" layoutY="61.0" prefHeight="145.0" prefWidth="200.0" visible="false">
+      <Pane fx:id="postPanel" layoutX="370.0" layoutY="74.0" prefHeight="145.0" prefWidth="182.0" visible="false">
          <children>
             <Label layoutX="14.0" layoutY="14.0" text="Key">
                <font>
@@ -49,6 +49,16 @@
                </font>
             </Label>
             <TextField fx:id="value1" layoutX="14.0" layoutY="97.0" />
+         </children>
+      </Pane>
+      <Pane fx:id="bodyPanel" layoutX="25.0" layoutY="206.0" prefHeight="157.0" prefWidth="383.0" visible="false">
+         <children>
+            <Label prefHeight="17.0" prefWidth="90.0" text="Body">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <TextArea fx:id="body" layoutY="28.0" prefHeight="115.0" prefWidth="348.0" />
          </children>
       </Pane>
    </children>

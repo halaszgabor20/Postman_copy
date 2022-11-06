@@ -11,7 +11,7 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 490);
+        Scene scene = new Scene(fxmlLoader.load(), 765, 650);
         stage.setTitle("Postman copy");
         stage.setScene(scene);
         stage.show();
