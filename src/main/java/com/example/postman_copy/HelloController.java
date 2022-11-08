@@ -26,7 +26,6 @@ import javafx.beans.value.ObservableValue;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.scene.layout.Pane;
 import com.google.gson.Gson;
-import org.json.JSONObject;
 
 public class HelloController implements Initializable {
 
@@ -46,13 +45,16 @@ public class HelloController implements Initializable {
     private TextArea responseText;
 
     @FXML
-    private TextField key1;
+    private TextField headerKey1;
 
     @FXML
-    private TextField value1;
+    private TextField headerValue1;
 
     @FXML
-    private Pane postPanel;
+    private TextField headerKey2;
+
+    @FXML
+    private TextField headerValue2;
 
 
     @FXML
@@ -61,54 +63,77 @@ public class HelloController implements Initializable {
         HttpRequest request = null;
 
         if(!endpoint.getText().isEmpty()) {
+            // Public endpoints for testing get request
+            // https://www.thecocktaildb.com/api/json/v1/1/search.php?s=margarita
+            // https://api2.binance.com/api/v3/ticker/24hr
             if (requestType.getValue() == "Get") {
-                request = HttpRequest.newBuilder()
-                        .uri(URI.create(endpoint.getText()))
-                        .build();
+                HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
+                        .uri(URI.create(endpoint.getText().trim()));
+
+                if(headerKey1.getText().length() > 0 && headerValue1.getText().length() > 0) {
+                    requestBuilder.header(headerKey1.getText(), headerValue1.getText());
+                }
+                if(headerKey2.getText().length() > 0 && headerValue2.getText().length() > 0) {
+                    requestBuilder.header(headerKey2.getText(), headerValue2.getText());
+                }
+
+                request = requestBuilder.build();
+
             } else if (requestType.getValue() == "Post") {
-                // Get key value pairs from the user if the request type is post
-                HashMap values = new HashMap<String, String>() {{
+                // Get key value pairs from the user
+                /*HashMap values = new HashMap<String, String>() {{
                     put(key1.getText(), value1.getText());
                 }};
 
                 var objectMapper = new ObjectMapper();
                 String requestBody = objectMapper
-                        .writeValueAsString(values);
+                        .writeValueAsString(values); */
 
-                ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-                String json = ow.writeValueAsString(body.getText());
-                String json2 = json.replace("\\", "");
-                String res = json2.substring(1, json2.length() - 1);
+                // Public endpoints for testing post request
+                // https://reqres.in/api/users
+                // Body: { "name": "MyName", "name2": "MyName2" }
+                // Headers: Content-Type, application/json
 
-                request = HttpRequest.newBuilder()
-                        .uri(URI.create(endpoint.getText()))
-                        .header("Content-Type", "application/json")
-                        .POST(HttpRequest.BodyPublishers.ofString(res))
-                        .build();
+                HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
+                        .uri(URI.create(endpoint.getText().trim()));
+
+                if(headerKey1.getText().length() > 0 && headerValue1.getText().length() > 0) {
+                    requestBuilder.header(headerKey1.getText(), headerValue1.getText());
+                }
+                if(headerKey2.getText().length() > 0 && headerValue2.getText().length() > 0) {
+                    requestBuilder.header(headerKey2.getText(), headerValue2.getText());
+                }
+
+                request = requestBuilder.POST(HttpRequest.BodyPublishers.ofString(body.getText())).build();
 
             } else if(requestType.getValue() == "Delete") {
-                request = HttpRequest.newBuilder()
-                        .uri(URI.create(endpoint.getText()))
-                        .DELETE().build();
+                HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
+                        .uri(URI.create(endpoint.getText().trim()));
+
+                if(headerKey1.getText().length() > 0 && headerValue1.getText().length() > 0) {
+                    requestBuilder.header(headerKey1.getText(), headerValue1.getText());
+                }
+                if(headerKey2.getText().length() > 0 && headerValue2.getText().length() > 0) {
+                    requestBuilder.header(headerKey2.getText(), headerValue2.getText());
+                }
+
+                request = requestBuilder.DELETE().build();
             }
         }
 
-        // Public api endpoint for get and post requests
-        // Get: https://www.thecocktaildb.com/api/json/v1/1/search.php?s=margarita
-        // http://webcode.me
-        // Post: https://reqres.in/api/users
-        // {"name": "MyName"}
-        // https://httpbin.org/post
         if(request != null) {
             HttpResponse<String> response = client.send(request,
                     HttpResponse.BodyHandlers.ofString());
 
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            JsonElement je = JsonParser.parseString(response.body());
-            String prettyJsonString = gson.toJson(je);
+            if(response.body().startsWith("{") || response.body().startsWith("[")){
+                Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
+                JsonElement je = JsonParser.parseString(response.body());
+                String prettyJsonString = gson.toJson(je);
 
-            responseText.setText("HTTP response is: \n" + prettyJsonString);
-            //responseText.setText("HTTP response is: \n" + response.body());
+                responseText.setText("HTTP response is: \n" + prettyJsonString);
+            } else {
+                responseText.setText("HTTP response is: \n" + response.body());
+            }
         }
     }
 
@@ -120,15 +145,24 @@ public class HelloController implements Initializable {
         requestType.valueProperty().addListener(new ChangeListener<String>() {
             @Override public void changed(ObservableValue ov, String t, String t1) {
                 if(t1 == "Post") {
-                    postPanel.setVisible(true);
                     bodyPanel.setVisible(true);
+                    cleanUp();
                 } else {
-                    postPanel.setVisible(false);
                     bodyPanel.setVisible(false);
+                    cleanUp();
                 }
             }
         });
         requestType.setItems(requestTypes);
         requestType.setValue("Get");
+    }
+
+    public void cleanUp() {
+        body.setText("");
+        headerKey1.setText("");
+        headerKey2.setText("");
+        headerValue1.setText("");
+        headerValue2.setText("");
+        endpoint.setText("");
     }
 }
