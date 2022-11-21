@@ -56,6 +56,18 @@ public class HelloController implements Initializable {
     @FXML
     private TextField headerValue2;
 
+    @FXML
+    private TextField headerKey3;
+
+    @FXML
+    private TextField headerValue3;
+
+    @FXML
+    private TextField headerKey4;
+
+    @FXML
+    private TextField headerValue4;
+
 
     @FXML
     protected void sendHttpRequest() throws IOException, InterruptedException {
@@ -75,6 +87,12 @@ public class HelloController implements Initializable {
                 }
                 if(headerKey2.getText().length() > 0 && headerValue2.getText().length() > 0) {
                     requestBuilder.header(headerKey2.getText(), headerValue2.getText());
+                }
+                if(headerKey3.getText().length() > 0 && headerValue3.getText().length() > 0) {
+                    requestBuilder.header(headerKey3.getText(), headerValue3.getText());
+                }
+                if(headerKey4.getText().length() > 0 && headerValue4.getText().length() > 0) {
+                    requestBuilder.header(headerKey4.getText(), headerValue4.getText());
                 }
 
                 request = requestBuilder.build();
@@ -103,6 +121,12 @@ public class HelloController implements Initializable {
                 if(headerKey2.getText().length() > 0 && headerValue2.getText().length() > 0) {
                     requestBuilder.header(headerKey2.getText(), headerValue2.getText());
                 }
+                if(headerKey3.getText().length() > 0 && headerValue3.getText().length() > 0) {
+                    requestBuilder.header(headerKey3.getText(), headerValue3.getText());
+                }
+                if(headerKey4.getText().length() > 0 && headerValue4.getText().length() > 0) {
+                    requestBuilder.header(headerKey4.getText(), headerValue4.getText());
+                }
 
                 request = requestBuilder.POST(HttpRequest.BodyPublishers.ofString(body.getText())).build();
 
@@ -115,6 +139,12 @@ public class HelloController implements Initializable {
                 }
                 if(headerKey2.getText().length() > 0 && headerValue2.getText().length() > 0) {
                     requestBuilder.header(headerKey2.getText(), headerValue2.getText());
+                }
+                if(headerKey3.getText().length() > 0 && headerValue3.getText().length() > 0) {
+                    requestBuilder.header(headerKey3.getText(), headerValue3.getText());
+                }
+                if(headerKey4.getText().length() > 0 && headerValue4.getText().length() > 0) {
+                    requestBuilder.header(headerKey4.getText(), headerValue4.getText());
                 }
 
                 request = requestBuilder.DELETE().build();
